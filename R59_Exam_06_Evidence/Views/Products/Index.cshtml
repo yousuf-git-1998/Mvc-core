@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row" style="padding:10px">
+    <div class="col-12">
+        <h3>Products</h3>
+        <div style="display:flex;justify-content:flex-end" class="mb-1">
+            @Html.ActionLink("Create", "Create", "Products", new { }, new { @class = "btn btn-primary btn-sm" })
+        </div>
+        <div id="tablediv">
+            @Html.Action("ProductList")
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        $(".del").click(function () {
+            var id = $(this).data('pk');
+            var trP = $(this).closest('tr');
+            var trS = trP.next();
+           
+            console.log(id);
+            if (confirm("Are you sure to delete?\nProduct with its sales will be deleted.")) {
+                $.ajax({
+                    type: 'post',
+                    url: '/products/Delete/' + id,
+                    success: r => {
+                        if (r.success && r.success == true){
+                            trP.remove();
+                            trS.remove();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

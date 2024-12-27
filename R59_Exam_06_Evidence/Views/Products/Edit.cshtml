@@ -1,0 +1,112 @@
+﻿@model R59_Exam_06_Evidence.ViewModels.ProductEditModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.ProductId)
+            <h2>Edit product</h2>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.ProductName, new { @class = "col-form-label col-2" })
+                <div class="col-10">
+                    @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ProductName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Price, new { @class = "col-form-label col-2" })
+                <div class="col-10">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.MfgDate, new { @class = "col-form-label col-2" })
+                <div class="col-10">
+                    @Html.TextBoxFor(x => x.MfgDate, new { @class = "form-control", type = "date", @Value = Model.MfgDate.ToString("yyyy-MM-dd") })
+                    @Html.ValidationMessageFor(x => x.MfgDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-2" })
+                <div class="col-10">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", type = "file" })
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-10 offset-2">
+                    <div class="form-check">
+
+                        @Html.CheckBoxFor(x => x.InStock, new { @class = "form-check-input" })
+                        <label class="form-check-label">
+                            In Stock
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-1" style="display:flex">
+
+                <h4>Sales</h4>
+                <span style="flex: 1 1 auto"></span>
+                <button formnovalidate class="btn btn-secondary btn-sm" type="submit" name="operation" value="add">Add</button>
+
+            </div>
+            <div class="col-12 mb-1">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Seller</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Sales.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.TextBoxFor(x => Model.Sales[i].Date, new { @class = "form-control", type = "date", @Value = Model.Sales[i].Date.ToString("yyyy-MM-dd") })
+                                    @Html.ValidationMessageFor(x => Model.Sales[i].Date, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(x => Model.Sales[i].SellerId, new SelectList(ViewBag.Sellers, "SellerId", "SellerName", Model.Sales[i].SellerId), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => Model.Sales[i].SellerId, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => Model.Sales[i].Quantity, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => Model.Sales[i].Quantity, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    <button formnovalidate class="btn btn-danger btn-sm" type="submit" name="operation" value="del_@i">Remove</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group row mb-1 text-end">
+
+                <div class="col-10 offset-2">
+                    <button type="submit" class="btn btn-primary" name="operation" value="update">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <img src="~/Pictures/@ViewBag.CurrentPic" />
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
+
+

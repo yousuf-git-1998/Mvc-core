@@ -1,0 +1,25 @@
+﻿@model R59_Exam_06_Evidence.ViewModels.ProductInputModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row" style="padding:15px">
+    <div class="col-12" id="formDiv">
+        @Html.Partial("_CreateForm", Model)
+    </div>
+</div>
+
+@section scripts {
+    
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        function onSuccess(r) {
+            
+            $.validator.unobtrusive.parse(document);
+        }
+    </script>
+}
+
+
